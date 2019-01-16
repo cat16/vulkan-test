@@ -1,5 +1,8 @@
 #pragma once
 
+#define GLFW_DLL
+#include "GLFW/glfw3.h"
+
 #include "graphics/vulkan.hpp"
 
 class Window {
