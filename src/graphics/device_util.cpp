@@ -18,7 +18,7 @@ vk::PhysicalDevice DeviceUtil::pickPhysicalDevice(vk::Instance instance, vk::Sur
 		}
 	}
 
-	if (physicalDevice) {
+	if (!physicalDevice) {
 		throw std::runtime_error("failed to find a suitable GPU!");
 	}
 
