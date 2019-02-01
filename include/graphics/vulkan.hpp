@@ -24,6 +24,7 @@ public:
 	void recreateSwapChain();
 	void waitForDeviceIdle();
 private:
+	vk::DispatchLoaderDynamic dldy;
 	VulkanDebug debug;
 
 	GLFWwindow * window;

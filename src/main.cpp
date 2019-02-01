@@ -33,7 +33,6 @@ private:
 
 int main() {
 	HelloTriangleApplication app;
-
 	try {
 		app.run();
 	}

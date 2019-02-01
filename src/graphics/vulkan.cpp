@@ -2,11 +2,14 @@
 
 void Vulkan::init(GLFWwindow * window) {
 	instance.create();
-	debug.bound(instance);
-	debug.setupDebugCallback();
 	createSurface(window);
 
 	device.create(instance, surface, Game::validationLayers);
+	dldy.init(instance, device);
+
+	debug.bound(instance, dldy);
+	debug.setupDebugCallback();
+
 	initSwapChain();
 	commandPool.create(device.getPhysical(), surface, device);
 	vertexBuffer.create(device, device.getPhysical(), Game::vertices);
@@ -69,10 +72,11 @@ void Vulkan::drawFrame(bool framebufferResized) {
 }
 
 void Vulkan::createSurface(GLFWwindow * window) {
-	auto surfacep = VkSurfaceKHR((vk::SurfaceKHR)surface);
-	if (glfwCreateWindowSurface(VkInstance((vk::Instance)instance), window, nullptr, &surfacep) != VK_SUCCESS) {
+	VkSurfaceKHR vkSurface;
+	if (glfwCreateWindowSurface(VkInstance((vk::Instance)instance), window, nullptr, &vkSurface) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create window surface!");
 	}
+	surface = vk::SurfaceKHR(vkSurface);
 }
 
 void Vulkan::initSwapChain() {

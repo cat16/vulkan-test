@@ -1,12 +1,13 @@
 #include "graphics/vulkan_debug.hpp"
 
-void VulkanDebug::bound(vk::Instance instance) {
+void VulkanDebug::bound(vk::Instance instance, vk::DispatchLoaderDynamic dldy) {
 	this->instance = instance;
+	this->dldy = dldy;
 }
 
-static VKAPI_ATTR vk::Bool32 VKAPI_CALL debugCallback(
+static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 	VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-	VkDebugUtilsMessageTypeFlagsEXT messageType,
+	VkDebugUtilsMessageSeverityFlagsEXT messageType,
 	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
 	void* pUserData) {
 
@@ -24,11 +25,18 @@ void VulkanDebug::setupDebugCallback() {
 		debugCallback,
 		nullptr);
 
-	instance.createDebugUtilsMessengerEXT(&createInfo, nullptr, &callback);
+	instance.createDebugUtilsMessengerEXT(&createInfo, nullptr, &callback, dldy);
 }
 
 void VulkanDebug::destroyDebugCallback() {
 	if (Game::enableValidationLayers) {
 		DestroyDebugUtilsMessengerEXT(nullptr);
 	}
+}
+
+void VulkanDebug::DestroyDebugUtilsMessengerEXT(const vk::AllocationCallbacks* pAllocator) {
+    auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) instance.getProcAddr("vkDestroyDebugUtilsMessengerEXT");
+    if (func != nullptr) {
+		instance.destroyDebugUtilsMessengerEXT(callback, pAllocator, dldy);
+    }
 }

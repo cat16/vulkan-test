@@ -10,11 +10,12 @@
 
 class VulkanDebug {
 public:
-	void bound(vk::Instance instance);
+	void bound(vk::Instance instance, vk::DispatchLoaderDynamic dldy);
 	void setupDebugCallback();
 	void destroyDebugCallback();
 private:
 	vk::Instance instance;
+	vk::DispatchLoaderDynamic dldy;
 	vk::DebugUtilsMessengerEXT callback;
 
 	void createDebugUtilsMessengerEXT(const vk::DebugUtilsMessengerCreateInfoEXT* pCreateInfo, const vk::AllocationCallbacks* pAllocator);
