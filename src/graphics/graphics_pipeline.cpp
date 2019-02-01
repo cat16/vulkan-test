@@ -52,9 +52,8 @@ void GraphicsPipeline::create(vk::Device device, vk::Extent2D swapChainExtent, v
 	);
 
 	vk::GraphicsPipelineCreateInfo pipelineInfo({}, 2, shaderStages, &vertexInputInfo, &inputAssembly, nullptr, &viewportState, &rasterizer, &multisampling, nullptr, &colorBlending, nullptr, layout, renderPass, 0, nullptr, -1);
-	auto pipelineCache = device.createPipelineCache(vk::PipelineCacheCreateInfo());
 
-	pipeline = device.createGraphicsPipeline(pipelineCache, pipelineInfo);
+	pipeline = device.createGraphicsPipeline(nullptr, pipelineInfo);
 
 	fragShaderModule.destroy();
 	vertShaderModule.destroy();

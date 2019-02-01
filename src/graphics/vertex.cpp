@@ -8,7 +8,7 @@ vk::VertexInputBindingDescription Vertex::getBindingDescription() {
 std::array<vk::VertexInputAttributeDescription, 2> Vertex::getAttributeDescriptions() {
 	std::array<vk::VertexInputAttributeDescription, 2> attributeDescriptions = {};
 	attributeDescriptions[0] = vk::VertexInputAttributeDescription(0, 0, vk::Format::eR32G32Sfloat, offsetof(Vertex, pos));
-	attributeDescriptions[1] = vk::VertexInputAttributeDescription(0, 1, vk::Format::eR32G32B32Sfloat, offsetof(Vertex, color));
+	attributeDescriptions[1] = vk::VertexInputAttributeDescription(1, 0, vk::Format::eR32G32B32Sfloat, offsetof(Vertex, color));
 
 	return attributeDescriptions;
 }
