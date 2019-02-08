@@ -5,7 +5,7 @@
 #include <vulkan/vulkan.hpp>
 
 #include "shader.hpp"
-#include "vertex.hpp"
+#include "buffer/vertex.hpp"
 
 class GraphicsPipeline {
 public:

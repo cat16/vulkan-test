@@ -11,7 +11,8 @@
 #include "graphics/renderpass.hpp"
 #include "graphics/swapchain.hpp"
 #include "graphics/command_pool.hpp"
-#include "graphics/vertex.hpp"
+#include "graphics/buffer/vertex.hpp"
+#include "graphics/buffer/index.hpp"
 #include "graphics/vulkan_debug.hpp"
 #include "graphics/vulkan_sync.hpp"
 
@@ -38,9 +39,12 @@ private:
 	GraphicsPipeline graphicsPipeline;
 	CommandPool commandPool;
 	VertexBuffer vertexBuffer;
+	IndexBuffer indexBuffer;
 
 	void createSurface(GLFWwindow * window);
 
 	void initSwapChain();
 	void cleanupSwapChain();
+
+	void createCommandPoolBuffers();
 };

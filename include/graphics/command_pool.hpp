@@ -12,7 +12,7 @@
 class CommandPool {
 public:
 	void create(vk::PhysicalDevice physicalDevice, vk::SurfaceKHR surface, vk::Device device);
-	void createBuffers(std::vector<vk::Framebuffer> frameBuffers, vk::RenderPass renderPass, vk::Extent2D extent, vk::Pipeline pipeline, vk::Buffer vertexBuffer, size_t verticesSize);
+	void createBuffers(std::vector<vk::Framebuffer> frameBuffers, vk::RenderPass renderPass, vk::Extent2D extent, vk::Pipeline pipeline, vk::Buffer vertexBuffer, vk::Buffer indexBuffer, size_t indicesSize);
 	operator vk::CommandPool() const;
 	std::vector<vk::CommandBuffer> getBuffers();
 	void destory();

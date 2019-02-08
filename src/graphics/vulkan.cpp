@@ -12,8 +12,9 @@ void Vulkan::init(GLFWwindow * window) {
 
 	initSwapChain();
 	commandPool.create(device.getPhysical(), surface, device);
-	vertexBuffer.create(device, device.getPhysical(), Game::vertices);
-	commandPool.createBuffers(swapChain.getFrameBuffers(), renderPass, swapChain.getExtent(), graphicsPipeline, vertexBuffer, vertexBuffer.getVerticesSize());
+	vertexBuffer.create(device, commandPool, device.getGraphicsQueue(), device.getPhysical(), Game::vertices);
+	indexBuffer.create(device, commandPool, device.getGraphicsQueue(), device.getPhysical(), Game::indices);
+	createCommandPoolBuffers();
 	sync.create(device);
 
 	this->window = window;
@@ -27,6 +28,7 @@ void Vulkan::cleanup() {
 	cleanupSwapChain();
 
 	vertexBuffer.destroy();
+	indexBuffer.destroy();
 	sync.destroy();
 	commandPool.destory();
 	device.destroy();
@@ -98,11 +100,15 @@ void Vulkan::recreateSwapChain() {
 	device.waitIdle();
 
 	cleanupSwapChain();
-
 	initSwapChain();
-	commandPool.createBuffers(swapChain.getFrameBuffers(), renderPass, swapChain.getExtent(), graphicsPipeline, vertexBuffer, vertexBuffer.getVerticesSize());
+
+	createCommandPoolBuffers();
 }
 
 void Vulkan::waitForDeviceIdle() {
 	device.waitIdle();
+}
+
+void Vulkan::createCommandPoolBuffers() {
+	commandPool.createBuffers(swapChain.getFrameBuffers(), renderPass, swapChain.getExtent(), graphicsPipeline, vertexBuffer, indexBuffer, indexBuffer.getIndicesSize());
 }

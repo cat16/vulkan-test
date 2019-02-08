@@ -9,7 +9,7 @@ void CommandPool::create(vk::PhysicalDevice physicalDevice, vk::SurfaceKHR surfa
 	this->device = device;
 }
 
-void CommandPool::createBuffers(std::vector<vk::Framebuffer> frameBuffers, vk::RenderPass renderPass, vk::Extent2D extent, vk::Pipeline pipeline, vk::Buffer vertexBuffer, size_t verticesSize) {
+void CommandPool::createBuffers(std::vector<vk::Framebuffer> frameBuffers, vk::RenderPass renderPass, vk::Extent2D extent, vk::Pipeline pipeline, vk::Buffer vertexBuffer, vk::Buffer indexBuffer, size_t indicesSize) {
 	commandBuffers.resize(frameBuffers.size());
 
 	vk::CommandBufferAllocateInfo allocInfo(commandPool, vk::CommandBufferLevel::ePrimary, (uint32_t)commandBuffers.size());
@@ -30,9 +30,11 @@ void CommandPool::createBuffers(std::vector<vk::Framebuffer> frameBuffers, vk::R
 		vk::Buffer vertexBuffers[] = { vertexBuffer };
 		vk::DeviceSize offsets[] = { 0 };
 		commandBuffers[i].bindVertexBuffers(0, 1, vertexBuffers, offsets);
+		commandBuffers[i].bindIndexBuffer(indexBuffer, 0, vk::IndexType::eUint16);
 
-		commandBuffers[i].draw(static_cast<uint32_t>(verticesSize), 1, 0, 0);
-
+		commandBuffers[i].drawIndexed(static_cast<uint32_t>(indicesSize), 1, 0, 0, 0);
+		//commandBuffers[i].draw(4, 1, 0, 0);
+	//hehe
 		commandBuffers[i].endRenderPass();
 		commandBuffers[i].end();
 	}

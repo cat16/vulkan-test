@@ -10,6 +10,7 @@
 #include <stdexcept>
 
 #include "util.hpp"
+#include "buffer_util.hpp"
 
 struct Vertex {
 	glm::vec2 pos;
@@ -21,7 +22,7 @@ struct Vertex {
 
 class VertexBuffer {
 public:
-	void create(vk::Device device, vk::PhysicalDevice physicalDevice, std::vector<Vertex> vertices);
+	void create(vk::Device device, vk::CommandPool commandPool, vk::Queue graphicsQueue, vk::PhysicalDevice physicalDevice, std::vector<Vertex> vertices);
 	operator vk::Buffer() const;
 	size_t getVerticesSize();
 	void destroy();
